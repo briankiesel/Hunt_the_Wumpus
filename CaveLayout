@@ -1,0 +1,69 @@
+/*
+ * Hunt the Wumpus
+ * CaveLayout.java
+ * @author Brian Kiesel
+ */
+public class CaveLayout
+{
+	private int[] roomNumbers;
+	private String description;
+	private boolean wumpus;
+	private boolean spiders;
+	private boolean pits;
+	private boolean arrows;
+	
+	public CaveLayout(int[] rN, String desc)
+	{
+		roomNumbers = rN;
+		description = desc;
+		wumpus = false;
+		spiders = false;
+		pits = false;
+		arrows = false;
+	}
+
+	public int getCave(int x)
+	{
+		return roomNumbers[x];
+	}
+	
+	public String getCaveText()
+	{
+		return description;
+	}
+	
+	public void setWumpus()
+	{
+		wumpus = true;
+	}
+	
+	public void setSpiders()
+	{
+		spiders = true;
+	}
+	
+	public void setPits()
+	{
+		pits = true;
+	}
+	
+	public boolean hasWumpus()
+	{
+		return wumpus;
+	}
+	
+	public boolean hasSpiders()
+	{
+		return spiders;
+	}
+	
+	public boolean hasPits()
+	{
+		return pits;
+	}
+	
+	public boolean getArrows()
+	{
+		return arrows;
+	}
+}
