@@ -10,7 +10,6 @@ public class CaveLayout
 	private boolean wumpus;
 	private boolean spiders;
 	private boolean pits;
-	private boolean arrows;
 	
 	public CaveLayout(int[] rN, String desc)
 	{
@@ -19,7 +18,6 @@ public class CaveLayout
 		wumpus = false;
 		spiders = false;
 		pits = false;
-		arrows = false;
 	}
 
 	public int getCave(int x)
@@ -60,10 +58,5 @@ public class CaveLayout
 	public boolean hasPits()
 	{
 		return pits;
-	}
-	
-	public boolean getArrows()
-	{
-		return arrows;
 	}
 }
