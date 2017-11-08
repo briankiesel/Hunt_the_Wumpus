@@ -1,0 +1,204 @@
+/*
+ * Hunt the Wumpus
+ * Wumpus_Game.java
+ * @author Brian Kiesel
+ */
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
+
+public class Wumpus_Game
+{
+	static CaveLayout[] caveSize = null;
+	/*
+	 * This function is what allows the player to interact with the game. They move, shoot, win, and lose with this.
+	 */
+	public static void main(String[] args) throws FileNotFoundException
+	{
+		Scanner command = new Scanner(System.in);
+		CaveLayout[] rooms = generateCave();
+		int location = 0;
+		int quiver = 3;
+			
+			while (true)
+			{
+				System.out.println(rooms[location].getCaveText());
+				System.out.println("I am in room " + rooms[location].getCave(0) + " and I only have " + quiver + " arrows left.");
+				
+				if (hazardCheck(rooms, location, quiver))
+				{
+					break;
+				}
+				
+				System.out.println("There are three tunnels leading to rooms " + rooms[location].getCave(1) + ", " + rooms[location].getCave(2) + ", and " + rooms[location].getCave(3) + ".");
+				System.out.println("Should I Move or Shoot?");
+				String firstInput = command.next();
+				
+				if (firstInput.equals("Move"))
+				{
+					System.out.println("Which room should I go to?");
+					int moveInput = command.nextInt();
+					
+					if (moveInput == rooms[location].getCave(1) || moveInput == rooms[location].getCave(2) || moveInput == rooms[location].getCave(3))
+					{
+						location = --moveInput;
+					}
+					
+					else
+					{
+						System.out.println("I can't reach that room from here.");
+					}
+				}
+				
+				else if (firstInput.equals("Shoot"))
+				{
+					System.out.println("Which room should I shoot in?");
+					int shootInput = command.nextInt();
+					
+					if (shootInput == rooms[location].getCave(1) || shootInput == rooms[location].getCave(2) || shootInput == rooms[location].getCave(3))
+					{
+						if (quiver > 0)
+						{
+							if (rooms[shootInput-1].hasWumpus())
+							{
+								System.out.println("The beast has been slain! My fame will outlive me!");
+								System.out.println("*Congratulations Hell Walker! You have entered the belly of the beast and returned unscathed.");
+								break;
+							}
+							
+							else
+							{
+								quiver--;
+								System.out.println("Drats! I never miss! I only have " + quiver + " arrows lefft now.");
+								
+								if (quiver <= 0)
+								{
+									System.out.println("Hmm. How do I get out of here?");
+									System.out.println("*You become lost in the massive cave and perish, only to be forgotten by time.");
+									break;
+								}
+							}
+						}
+					}	
+				}
+				
+				else
+				{
+					System.out.println("I can't do that right now. Maybe later. Now should I Move or Shoot?");
+				}
+			}
+			
+			command.close();
+	}
+	
+	/*
+	 *This function generates the cave from the text file written for the game. It's a 10 room map with each room being adjecent to three more. It places the hazards in random rooms in the cave.
+	*/
+	static CaveLayout[] generateCave() throws FileNotFoundException
+	{
+		Scanner fin = new Scanner(new FileReader("WumpusMap.txt"));
+
+		int z = fin.nextInt();
+		
+		caveSize = new CaveLayout[z];
+		
+		for(int i = 0; i < caveSize.length; i++) 
+		{
+			int roomNumbers[] = new int[4];
+			
+			String description = null;
+			
+			roomNumbers[0] = fin.nextInt(); //current room
+			roomNumbers[1] = fin.nextInt(); //1st adjacent room
+			roomNumbers[2] = fin.nextInt(); //2nd adjacent room
+			roomNumbers[3] = fin.nextInt(); //3rd adjacent room
+			fin.nextLine();
+			description = fin.nextLine(); //the text displayed in each room
+			
+			caveSize[i] = new CaveLayout(roomNumbers, description);
+		}
+		
+		fin.close();
+		
+		return caveSize;
+	}
+	
+	/*
+	 * This function creates an array and removes elements to replace them with hazzards.
+   * This is the function that is giving me the most problems.
+	 */
+	static void placeHazzards() throws FileNotFoundException
+	{
+		ArrayList<CaveLayout> L = new ArrayList<CaveLayout>();
+		
+		Scanner cin = new Scanner(new FileReader("WumpusMap.txt"));
+
+		int z = cin.nextInt();
+		
+		caveSize = new CaveLayout[z];
+		
+		for (int i= 0; i < caveSize.length; i++)
+		{
+			L.add(caveSize[i]);
+		}
+		
+		int randomindexWumpus = (int)(1 + (L.size()) * (Math.random()));
+		L.remove(randomindexWumpus).setWumpus();
+		
+		int randomindexSpiders1 = (int)(1 + (L.size()) * (Math.random()));
+		L.remove(randomindexSpiders1).setSpiders();
+		
+		int randomindexSpiders2 = (int)(1 + (L.size()) * (Math.random()));
+		L.remove(randomindexSpiders2).setSpiders();
+		
+		int randomindexPits1 = (int)(1 + (L.size()) * (Math.random()));
+		L.remove(randomindexPits1).setPits();
+		
+		int randomindexPits2 = (int)(1 + (L.size()) * (Math.random()));
+		L.remove(randomindexPits2).setPits();
+		
+		cin.close();
+	}
+
+	/*
+	 * This is the function that checks the rooms for hazards, and warns the player of potential danger, or tells them if they have died.
+	 */
+	public static boolean hazardCheck(CaveLayout[] caveSize, int location, int quiver) throws FileNotFoundException
+	{
+		placeHazzards();
+		if (caveSize[location].hasWumpus())
+		{
+			System.out.println("The Wumpus has consumed you. You have fallen with no glory.");
+			return true;
+		}
+		
+		if (caveSize[location].hasSpiders())
+		{
+			System.out.println("Spiders swarm you and tear you apart with their mandibles.");
+			return true;
+		}
+		
+		if (caveSize[location].hasPits())
+		{
+			System.out.println("You fall into a bottomless pit and fall for eternity.");
+			return true;
+		}
+		
+		if (caveSize[caveSize[location].getCave(1)-1].hasWumpus() || caveSize[caveSize[location].getCave(2)-1].hasWumpus() || caveSize[caveSize[location].getCave(3)-1].hasWumpus())
+		{
+			System.out.println("What is that foul smell?");
+		}
+		
+		if (caveSize[caveSize[location].getCave(1)-1].hasSpiders() || caveSize[caveSize[location].getCave(2)-1].hasWumpus() || caveSize[caveSize[location].getCave(3)-1].hasSpiders())
+		{
+			System.out.println("The sound of those mandibles is sending chills down my spine.");
+		}
+		
+		if (caveSize[caveSize[location].getCave(1)-1].hasPits() || caveSize[caveSize[location].getCave(2)-1].hasPits() || caveSize[caveSize[location].getCave(3)-1].hasPits())
+		{
+			System.out.println("That cold breeze is coming from one of these rooms. But which one?");
+		}
+		return false;
+	}
+}
