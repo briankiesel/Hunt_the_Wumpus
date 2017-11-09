@@ -125,10 +125,10 @@ public class Wumpus_Game
 	}
 	
 	/*
-	 * This function creates an array and removes elements to replace them with hazzards.
+	 * This function creates an array and removes elements to replace them with hazards.
    * This is the function that is giving me the most problems.
 	 */
-	static void placeHazzards() throws FileNotFoundException
+	static void placeHazards() throws FileNotFoundException
 	{
 		ArrayList<CaveLayout> L = new ArrayList<CaveLayout>();
 		
@@ -166,7 +166,7 @@ public class Wumpus_Game
 	 */
 	public static boolean hazardCheck(CaveLayout[] caveSize, int location, int quiver) throws FileNotFoundException
 	{
-		placeHazzards();
+		placeHazards();
 		if (caveSize[location].hasWumpus())
 		{
 			System.out.println("The Wumpus has consumed you. You have fallen with no glory.");
