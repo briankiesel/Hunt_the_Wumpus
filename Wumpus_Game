@@ -1,7 +1,7 @@
 /*
  * Hunt the Wumpus
  * Wumpus_Game.java
- * @author Brian Kiesel
+ * @author Brian Kiesel, Caleb Olsen
  */
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -126,11 +126,10 @@ public class Wumpus_Game
 	
 	/*
 	 * This function creates an array and removes elements to replace them with hazards.
-   * This is the function that is giving me the most problems.
 	 */
 	static void placeHazards() throws FileNotFoundException
 	{
-		ArrayList<CaveLayout> L = new ArrayList<CaveLayout>();
+		ArrayList<CaveLayout> caveArray = new ArrayList<CaveLayout>();
 		
 		Scanner cin = new Scanner(new FileReader("WumpusMap.txt"));
 
@@ -140,23 +139,23 @@ public class Wumpus_Game
 		
 		for (int i= 0; i < caveSize.length; i++)
 		{
-			L.add(caveSize[i]);
+			caveArray.add(caveSize[i]);
 		}
 		
-		int randomindexWumpus = (int)(1 + (L.size()) * (Math.random()));
-		L.remove(randomindexWumpus).setWumpus();
+		int randomindexWumpus = (int)(1 + (caveArray.size()) * (Math.random()));
+		caveArray.remove(randomindexWumpus).setWumpus();
 		
-		int randomindexSpiders1 = (int)(1 + (L.size()) * (Math.random()));
-		L.remove(randomindexSpiders1).setSpiders();
+		int randomindexSpiders1 = (int)(1 + (caveArray.size()) * (Math.random()));
+		caveArray.remove(randomindexSpiders1).setSpiders();
 		
-		int randomindexSpiders2 = (int)(1 + (L.size()) * (Math.random()));
-		L.remove(randomindexSpiders2).setSpiders();
+		int randomindexSpiders2 = (int)(1 + (caveArray.size()) * (Math.random()));
+		caveArray.remove(randomindexSpiders2).setSpiders();
 		
-		int randomindexPits1 = (int)(1 + (L.size()) * (Math.random()));
-		L.remove(randomindexPits1).setPits();
+		int randomindexPits1 = (int)(1 + (caveArray.size()) * (Math.random()));
+		caveArray.remove(randomindexPits1).setPits();
 		
-		int randomindexPits2 = (int)(1 + (L.size()) * (Math.random()));
-		L.remove(randomindexPits2).setPits();
+		int randomindexPits2 = (int)(1 + (caveArray.size()) * (Math.random()));
+		caveArray.remove(randomindexPits2).setPits();
 		
 		cin.close();
 	}
