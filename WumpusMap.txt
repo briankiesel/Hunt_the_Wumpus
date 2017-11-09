@@ -1,0 +1,21 @@
+10
+1 2 6 10
+A shriveled, manic stranger sits in the corner and rambles, "Fool! Don't enter! That maze is ten rooms of Hell! It's full of endless pits, spiders, and that foul Wumpus! I can remember the details so vividly. The pits' spine tingling chill, the sound of the spiders' mandibles, and the Wumpus' horrid stench." The stranger then retreats to his corner to mumble to himself.
+2 1 3 7
+Oh, new boots! Drats. They're coated in dry blood.
+3 2 4 8 
+Is that.. the Holy Hand Grenade of Antioch? Unfortunate I know not how to use it.
+4 3 5 9
+Those rats are resting on... bones. I pray they aren't of man.
+5 4 6 10
+Who's ear is this?
+6 1 5 7
+Oh dear. This mysterious pool is going to stain the Queen's holy sigil.
+7 2 6 8
+A small metal plate reads OUTATIME. I wonder what this language is.
+8 3 7 9
+I must be mad to believe those are red eyes in the darkness.
+9 4 8 10
+A bottle of mead. If only it weren't empty.
+10 1 5 9
+A black flag with a red hog in the middle. What nation could this be of?
